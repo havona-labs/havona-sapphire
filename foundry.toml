@@ -1,0 +1,20 @@
+[profile.default]
+src          = "contracts"
+out          = "out"
+libs         = ["lib"]
+test         = "test"
+solc_version = "0.8.24"
+optimizer    = true
+optimizer_runs = 200
+
+remappings = [
+    "@oasisprotocol/sapphire-contracts/=lib/sapphire-paratime/contracts/",
+    "@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/",
+    "forge-std/=lib/forge-std/src/",
+]
+
+[profile.sapphire-localnet]
+# forge test --profile sapphire-localnet
+# requires: docker run --rm -p 8545:8545 ghcr.io/oasisprotocol/sapphire-dev:latest
+fork_url     = "http://localhost:8545"
+fork_chain_id = 23295

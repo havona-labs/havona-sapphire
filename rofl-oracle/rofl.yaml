@@ -1,0 +1,34 @@
+name: havona-trade-oracle
+version: 0.1.0
+description: Commodity price oracle for Havona TradeAttestation contract
+
+# TEE runtime — tdx for production, sgx for compatibility
+tee: tdx
+kind: container
+
+# Docker image — build with: docker build -t havona-trade-oracle .
+# Push to: docker push your-registry/havona-trade-oracle:0.1.0
+image: docker.io/havonalabs/trade-oracle:0.1.0
+
+# Resources allocated per TEE instance
+resources:
+  memory: 512m
+  cpus: 0.5
+
+# On-chain secrets — stored encrypted, decrypted inside the TEE at runtime.
+# Set via: oasis rofl secret set <name> <value>
+secrets:
+  - ROFL_APP_PRIVATE_KEY    # signing key for on-chain submissions
+  - TRADE_ATTESTATION_ADDRESS
+
+# Environment variables (non-secret)
+env:
+  RPC_URL: https://sapphire.oasis.io
+  POLL_INTERVAL_SECONDS: "60"
+
+# Network access required for external API calls
+network:
+  - outbound: true
+
+# The ROFL runtime will restart the container if it crashes.
+restart: always
